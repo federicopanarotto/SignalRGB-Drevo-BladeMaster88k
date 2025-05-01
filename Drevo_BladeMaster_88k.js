@@ -64,11 +64,17 @@ export function LedPositions() { return vLedPositions }
 
 export function Initialize() {
   device.log(`Start plugin: ${Name()}, created by ${Publisher()}`);
+  device.write([0x05, 0xfa, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00], 8)
 }
 
+let lastUpdate = 0;
+
 export function Render() {
-  sendColors()
-  // device.pause(1);
+  let now = Date.now();
+  if (now - lastUpdate > 10) {
+    sendColors();
+    lastUpdate = now;
+  }
 }
 
 export function Shutdown() { sendColors(shutdownColor) }
