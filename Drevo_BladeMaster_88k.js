@@ -67,14 +67,11 @@ export function Initialize() {
   device.write([0x05, 0xfa, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00], 8)
 }
 
-let lastUpdate = 0;
+const DELAY = 60; 
 
 export function Render() {
-  let now = Date.now();
-  if (now - lastUpdate > 10) {
-    sendColors();
-    lastUpdate = now;
-  }
+  sendColors();
+  device.pause(DELAY);
 }
 
 export function Shutdown() { sendColors(shutdownColor) }
@@ -129,9 +126,9 @@ function sendColors(overrideColor) {
     device.write(packet, 8);
   }
 
-  device.write(specialPackets[0], 8)
-  device.write(specialPackets[0], 8)
-  device.write(specialPackets[1], 8)
+  // device.write(specialPackets[0], 8)
+  // device.write(specialPackets[0], 8)
+  // device.write(specialPackets[1], 8)
 }
 
 function hexToRgb(hex) {
